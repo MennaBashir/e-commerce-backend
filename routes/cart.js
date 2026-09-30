@@ -1,2 +1,9 @@
-// Defining the routes for cart-related operations in the application
-// add to cart, remove from cart, get cart items
+import express from "express";
+import { addToCart, getCartItems, removeFromCart } from "../controllers/cart.js";
+
+const router = express.Router();
+
+router.route("/").get(getCartItems).post(addToCart);
+router.route("/:id").delete(removeFromCart);
+
+export default router;

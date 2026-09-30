@@ -1,2 +1,9 @@
-// Defining the routes for category-related operations in the application
-// add category, get categories, update category, delete category
+import express from "express";
+import { addCategory, deleteCategory, getCategories, updateCategory } from "../controllers/category.js";
+
+const router = express.Router();
+
+router.route("/").get(getCategories).post(addCategory);
+router.route("/:id").put(updateCategory).delete(deleteCategory);
+
+export default router; 

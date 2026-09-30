@@ -22,3 +22,14 @@
 3.  Ensure security best practices are followed, such as input validation, output encoding, and secure password storage.
 
 ---
+
+### To implement endpoints :
+
+**Order of implementation (dependency-safe):**
+
+1. **Category** → no deps
+2. **Tax** → no deps
+3. **User** → no deps
+4. **Product** → depends on Category
+5. **Cart** → depends on User + Product
+6. **Order** → depends on User + Product + Tax
