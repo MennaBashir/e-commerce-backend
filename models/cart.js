@@ -18,12 +18,16 @@ const schema = new mongoose.Schema({
         required: true,
         default: 1,
       },
+      price: {
+        type: Number,
+        required: true,
+      },
     },
   ],
   totalQty: {
     type: Number,
   },
-  totalPrice: {
+  totalPrice: { 
     type: Number,
   },
 });

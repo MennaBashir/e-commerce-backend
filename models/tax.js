@@ -12,7 +12,7 @@ const schema = new mongoose.Schema({
   },
   country: {
     type: String,
-  },
+  }, 
   region: {
     type: String,
   },

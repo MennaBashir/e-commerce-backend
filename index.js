@@ -8,6 +8,7 @@ import categoryRouter from "./routes/category.js";
 import productRouter from "./routes/product.js";
 import orderRouter from "./routes/order.js";
 import taxRouter from "./routes/tax.js";
+import { ERROR } from "./utils/httpStatus.js";
 
 dotenv.config();
 
@@ -24,6 +25,22 @@ app.use("/api/users", usersRouter);
 app.use("/api/products", productRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/orders", orderRouter);
+
+// handle route not found
+app.use((req, res) => {
+  res.status(404).json({
+    status: "fail",
+    message: `Route ${req.originalUrl} not found`,
+  });
+});
+
+// handle error globaly
+app.use((err, req, res, next) => {
+  res.status(err.statusCode || 500).json({
+    status: err.status || ERROR,
+    message: err.message,
+  });
+});
 
 async function start() {
   try {
