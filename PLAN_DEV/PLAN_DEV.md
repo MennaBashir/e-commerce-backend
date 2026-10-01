@@ -33,4 +33,5 @@
 3. **User** → no deps
 4. **Product** → depends on Category
 5. **Cart** → depends on User + Product
-6. **Order** → depends on User + Product + Tax
+6. **Order** → depends on User + Product + Tax => I will implement it later
+

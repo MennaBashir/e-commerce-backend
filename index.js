@@ -6,7 +6,6 @@ import usersRouter from "./routes/user.js";
 import cartRouter from "./routes/cart.js";
 import categoryRouter from "./routes/category.js";
 import productRouter from "./routes/product.js";
-import orderRouter from "./routes/order.js";
 import taxRouter from "./routes/tax.js";
 import { ERROR } from "./utils/httpStatus.js";
 
@@ -24,7 +23,6 @@ app.use("/api/taxes", taxRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/products", productRouter);
 app.use("/api/cart", cartRouter);
-app.use("/api/orders", orderRouter);
 
 // handle route not found
 app.use((req, res) => {

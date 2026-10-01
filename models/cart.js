@@ -24,9 +24,6 @@ const schema = new mongoose.Schema({
       },
     },
   ],
-  totalQty: {
-    type: Number,
-  },
   totalPrice: { 
     type: Number,
   },
