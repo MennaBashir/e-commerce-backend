@@ -1,18 +1,23 @@
 import { asyncWrapper } from "../middleware/asyncWrapper.js";
 import USER from "../models/user.js";
+import { AppError } from "../utils/appError.js";
 import { generateToken } from "../utils/generateToken.js";
 import { SUCCESS } from "../utils/httpStatus.js";
 import bcrypt from "bcryptjs";
 
 const registerUser = asyncWrapper(async (req, res, next) => {
-  const { password, ...data } = req.body;
+  const { name, email, password, phone, address, role } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
-  const token = generateToken({ id: data._id, role: data.role });
   const user = new USER({
-    ...data,
+    name,
+    email,
     password: hashedPassword,
-    token,
+    phone,
+    address,
+    role,
   });
+  const token = generateToken({ id: user._id, role: user.role });
+  user.token = token;
   await user.save();
   res.status(201).json({
     status: SUCCESS,

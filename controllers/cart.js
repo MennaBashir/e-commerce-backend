@@ -8,16 +8,15 @@ const getCartItems = asyncWrapper(async (req, res) => {
     throw new AppError("User ID is required", 400);
   }
   const cart = await CART.findOne({ user: userId });
-  console.log("cart", cart);
-  const totalPrice = cart.items.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0,
-  );
-  cart.totalPrice = totalPrice;
-  await cart.save();
   if (!cart) {
     throw new AppError("Cart not found", 404);
   }
+  cart.totalPrice = cart.items.reduce(
+    (acc, item) => acc + item.price * item.quantity,
+    0,
+  );
+  await cart.save();
+
   res.json({
     status: "success",
     data: cart,
