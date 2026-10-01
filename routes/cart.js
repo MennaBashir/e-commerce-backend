@@ -4,11 +4,13 @@ import {
   getCartItems,
   removeFromCart,
 } from "../controllers/cart.js";
+import { verifyToken } from "../middleware/verifyToken.js";
+import { allowedTo } from "../middleware/allowedTo.js";
 
 const router = express.Router();
 
-router.route("/:userId").get(getCartItems);
-router.route("/:userId/items").put(addToCart);
-router.route("/:userId/items/:productId").delete(removeFromCart);
+router.route("/:userId").get(verifyToken, getCartItems);
+router.route("/:userId/items").put(verifyToken, allowedTo("admin"), addToCart);
+router.route("/:userId/items/:productId").delete(verifyToken, allowedTo("admin"), removeFromCart);
 
 export default router;

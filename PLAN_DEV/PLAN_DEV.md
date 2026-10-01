@@ -35,3 +35,14 @@
 5. **Cart** → depends on User + Product
 6. **Order** → depends on User + Product + Tax => I will implement it later
 
+---
+
+### Protect routes using JWT authentication and authorization:
+
+1.  Ensure Hashing of passwords using bcrypt before storing them in the database.
+2.  Generate JWT tokens upon successful register,login and include them in the response. => make it function to avoid code duplication.
+3.  Build middleware to verify JWT tokens .
+4.  Build middleware to check user roles and permissions for authorization.
+5.  Then add middleware to protect routes based on user roles and permissions.
+
+___

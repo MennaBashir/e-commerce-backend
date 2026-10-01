@@ -1,9 +1,18 @@
 import { asyncWrapper } from "../middleware/asyncWrapper.js";
 import USER from "../models/user.js";
+import { generateToken } from "../utils/generateToken.js";
 import { SUCCESS } from "../utils/httpStatus.js";
+import bcrypt from "bcryptjs";
 
 const registerUser = asyncWrapper(async (req, res, next) => {
-  const user = new USER(req.body);
+  const { password, ...data } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const token = generateToken({ id: data._id, role: data.role });
+  const user = new USER({
+    ...data,
+    password: hashedPassword,
+    token,
+  });
   await user.save();
   res.status(201).json({
     status: SUCCESS,
@@ -17,12 +26,23 @@ const loginUser = asyncWrapper(async (req, res, next) => {
     return next(new AppError("Email and password are required", 400));
   }
   const user = await USER.findOne({ email });
-  if (!user || user.password !== password) {
+  const isPasswordValid = user
+    ? await bcrypt.compare(password, user.password)
+    : false;
+  if (!user || !isPasswordValid) {
     return next(new AppError("Invalid email or password", 401));
   }
+  const token = generateToken({ id: user._id, role: user.role });
+  user.token = token;
+  await user.save();
+
   res.status(201).json({
     status: SUCCESS,
-    data: user,
+    data: {
+      email: user.email,
+      name: user.name,
+      token,
+    },
   });
 });
 

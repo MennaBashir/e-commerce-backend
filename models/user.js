@@ -10,7 +10,7 @@ const schema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  password: { 
+  password: {
     type: String,
     required: true,
   },
@@ -31,6 +31,7 @@ const schema = new mongoose.Schema({
       country: String,
     },
   ],
+  token: String,
 });
 
 export default mongoose.model("USER", schema);
